@@ -79,17 +79,21 @@ const connectDB = async () => {
     return;
   }
   if (!process.env.MONGODB_URI) {
-    console.error('❌ MONGODB_URI is missing from environment variables!');
-    return;
+    const errorMsg = 'MONGODB_URI environment variable is missing in Vercel settings!';
+    console.error(`❌ ${errorMsg}`);
+    throw new Error(errorMsg);
   }
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI);
+    const conn = await mongoose.connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000,
+    });
     isConnected = true;
     console.log(`✅ MongoDB connected: ${conn.connection.host}`);
-    await autoSeedAdmin();
-    await autoSeedCategories();
+    await autoSeedAdmin().catch((e) => console.error('Auto-seed admin warning:', e.message));
+    await autoSeedCategories().catch((e) => console.error('Auto-seed categories warning:', e.message));
   } catch (error) {
     console.error(`❌ MongoDB connection error: ${error.message}`);
+    throw new Error(`MongoDB connection error: ${error.message}. Check MONGODB_URI & Atlas Network Access (0.0.0.0/0).`);
   }
 };
 

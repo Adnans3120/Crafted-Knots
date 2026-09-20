@@ -62,10 +62,10 @@ app.get('/api/health', (req, res) => {
 });
 
 // ─── Routes ───────────────────────────────────────────────────────
-app.use('/api/auth', authRoutes);
-app.use('/api/categories', categoryRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
+app.use(['/api/auth', '/auth'], authRoutes);
+app.use(['/api/categories', '/categories'], categoryRoutes);
+app.use(['/api/products', '/products'], productRoutes);
+app.use(['/api/orders', '/orders'], orderRoutes);
 
 // ─── 404 Handler ──────────────────────────────────────────────────
 app.use((req, res) => {
