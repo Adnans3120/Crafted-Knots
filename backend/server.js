@@ -12,10 +12,18 @@ import categoryRoutes from './routes/categories.js';
 import productRoutes from './routes/products.js';
 import orderRoutes from './routes/orders.js';
 
-// Connect to MongoDB
-connectDB();
-
 const app = express();
+
+// Ensure DB connection for serverless requests
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('Database connection middleware error:', err);
+    next(err);
+  }
+});
 
 // ─── Security & Logging ───────────────────────────────────────────
 app.use(helmet());
