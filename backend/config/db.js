@@ -21,11 +21,11 @@ const defaultCategories = [
 
 const autoSeedAdmin = async () => {
   try {
-    const adminEmail = process.env.ADMIN_EMAIL || 'admin@craftedknots.com';
-    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123456';
-    const adminName = process.env.ADMIN_NAME || 'Crafted Knots Owner';
+    const adminEmail = (process.env.ADMIN_EMAIL || 'craftedknots25@gmail.com').toLowerCase();
+    const adminPassword = process.env.ADMIN_PASSWORD || 'Ash@ad!09';
+    const adminName = process.env.ADMIN_NAME || 'Uzma';
 
-    const existingAdmin = await User.findOne({ email: adminEmail });
+    let existingAdmin = await User.findOne({ email: adminEmail }).select('+password');
 
     if (!existingAdmin) {
       await User.create({
@@ -38,7 +38,21 @@ const autoSeedAdmin = async () => {
       });
       console.log(`👑 Fixed Owner Admin account created: ${adminEmail}`);
     } else {
-      console.log(`👑 Fixed Owner Admin account verified: ${adminEmail}`);
+      let isModified = false;
+      if (existingAdmin.role !== 'admin') {
+        existingAdmin.role = 'admin';
+        isModified = true;
+      }
+      if (adminPassword) {
+        existingAdmin.password = adminPassword;
+        isModified = true;
+      }
+      if (isModified) {
+        await existingAdmin.save();
+        console.log(`👑 Fixed Owner Admin account role & credentials updated: ${adminEmail}`);
+      } else {
+        console.log(`👑 Fixed Owner Admin account verified: ${adminEmail}`);
+      }
     }
   } catch (err) {
     console.error(`⚠️ Admin auto-seed check warning: ${err.message}`);

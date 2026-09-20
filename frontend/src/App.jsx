@@ -44,8 +44,11 @@ const AdminRoute = ({ children }) => {
 };
 
 const GuestRoute = ({ children }) => {
-  const { isLoggedIn } = useAuthStore();
-  return !isLoggedIn() ? children : <Navigate to="/" replace />;
+  const { isLoggedIn, isAdmin } = useAuthStore();
+  if (isLoggedIn()) {
+    return <Navigate to={isAdmin() ? "/admin" : "/"} replace />;
+  }
+  return children;
 };
 
 // ─── Customer Layout ──────────────────────────────────────────────
