@@ -68,9 +68,11 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 // ─── Start Server ─────────────────────────────────────────────────
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🧶 Crafted Knots API running on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
-});
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`🧶 Crafted Knots API running on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
+  });
+}
 
 export default app;
