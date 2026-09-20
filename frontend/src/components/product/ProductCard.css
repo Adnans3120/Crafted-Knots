@@ -1,0 +1,75 @@
+.product-card {
+  display: block;
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+
+/* Image */
+.product-img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  background: var(--bg);
+}
+.product-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+.product-card:hover .product-img { transform: scale(1.06); }
+
+/* Overlay */
+.product-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1rem;
+  background: linear-gradient(transparent, rgba(44, 24, 16, 0.7));
+  display: flex; align-items: flex-end; justify-content: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.product-card:hover .product-overlay { opacity: 1; transform: translateY(0); }
+
+/* Badges */
+.product-badge {
+  position: absolute;
+  top: 0.75rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 100px;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.product-badge.featured { left: 0.75rem; background: var(--primary); color: #fff; }
+.product-badge.sale { right: 0.75rem; background: var(--accent); color: #fff; }
+.product-badge.out-of-stock { left: 0.75rem; background: #555; color: #fff; }
+
+/* Info */
+.product-info { padding: 1rem 1.1rem 1.2rem; }
+.product-category {
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--accent);
+  display: block; margin-bottom: 0.3rem;
+}
+.product-name {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.product-price-row {
+  display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+}
+.product-variants-note {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin-top: 0.3rem;
+}

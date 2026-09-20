@@ -1,0 +1,72 @@
+import mongoose from 'mongoose';
+import dns from 'dns';
+import User from '../models/User.js';
+import Category from '../models/Category.js';
+
+// Fix Node.js DNS SRV resolution issues on Windows/ISPs
+dns.setDefaultResultOrder('ipv4first');
+try {
+  dns.setServers(['8.8.8.8', '8.8.4.4']);
+} catch (e) {
+  // Ignore if custom dns servers fail
+}
+
+const defaultCategories = [
+  { name: 'Tops & Wearables', slug: 'tops-wearables', description: 'Handcrafted crochet tops, cardigans, and wearable fashion' },
+  { name: 'Bags & Purses', slug: 'bags-purses', description: 'Crochet tote bags, shoulder bags, and coin purses' },
+  { name: 'Flowers & Bouquets', slug: 'flowers-bouquets', description: 'Forever blooming crochet flowers and customized bouquets' },
+  { name: 'Keychains & Charms', slug: 'keychains-charms', description: 'Cute handcrafted keychains, bag charms, and accessories' },
+  { name: 'Toys & Plushies', slug: 'toys-plushies', description: 'Adorable amigurumi plushies and soft toys' },
+];
+
+const autoSeedAdmin = async () => {
+  try {
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@craftedknots.com';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123456';
+    const adminName = process.env.ADMIN_NAME || 'Crafted Knots Owner';
+
+    const existingAdmin = await User.findOne({ email: adminEmail });
+
+    if (!existingAdmin) {
+      await User.create({
+        name: adminName,
+        email: adminEmail,
+        phone: '9999999999',
+        password: adminPassword,
+        role: 'admin',
+        isActive: true,
+      });
+      console.log(`👑 Fixed Owner Admin account created: ${adminEmail}`);
+    } else {
+      console.log(`👑 Fixed Owner Admin account verified: ${adminEmail}`);
+    }
+  } catch (err) {
+    console.error(`⚠️ Admin auto-seed check warning: ${err.message}`);
+  }
+};
+
+const autoSeedCategories = async () => {
+  try {
+    const count = await Category.countDocuments();
+    if (count === 0) {
+      await Category.insertMany(defaultCategories);
+      console.log(`🌸 Default crochet categories auto-seeded (5 categories)`);
+    }
+  } catch (err) {
+    console.error(`⚠️ Category auto-seed warning: ${err.message}`);
+  }
+};
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGODB_URI);
+    console.log(`✅ MongoDB connected: ${conn.connection.host}`);
+    await autoSeedAdmin();
+    await autoSeedCategories();
+  } catch (error) {
+    console.error(`❌ MongoDB connection error: ${error.message}`);
+    process.exit(1);
+  }
+};
+
+export default connectDB;
