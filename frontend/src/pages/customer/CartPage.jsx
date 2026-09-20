@@ -75,6 +75,7 @@ export default function CartPage() {
 
               return (
                 <div key={item.cartItemId || item._id} className="cart-item">
+                  {/* Info: thumbnail + name (shown on all screen sizes) */}
                   <div className="item-info">
                     <img src={image} alt={name} className="item-thumb" />
                     <div>
@@ -87,9 +88,8 @@ export default function CartPage() {
                     </div>
                   </div>
 
-                  <div className="item-price">
-                    ₹{itemPrice}
-                  </div>
+                  {/* Desktop columns — hidden on mobile via CSS */}
+                  <div className="item-price">₹{itemPrice}</div>
 
                   <div className="item-qty">
                     <div className="quantity-control">
@@ -103,9 +103,7 @@ export default function CartPage() {
                     </div>
                   </div>
 
-                  <div className="item-total">
-                    ₹{itemTotal}
-                  </div>
+                  <div className="item-total">₹{itemTotal}</div>
 
                   <div className="item-action">
                     <button
@@ -115,6 +113,32 @@ export default function CartPage() {
                     >
                       <Trash2 size={18} />
                     </button>
+                  </div>
+
+                  {/* Mobile bottom controls row — visible only on small screens */}
+                  <div className="mobile-item-controls">
+                    <div className="mobile-item-left">
+                      <span className="mobile-item-price">₹{itemPrice} each</span>
+                      <span className="mobile-item-total">Total: ₹{itemTotal}</span>
+                    </div>
+                    <div className="mobile-item-right">
+                      <div className="quantity-control">
+                        <button onClick={() => updateQuantity(item.cartItemId || item._id, item.quantity - 1)}>
+                          <Minus size={13} />
+                        </button>
+                        <span>{item.quantity}</span>
+                        <button onClick={() => updateQuantity(item.cartItemId || item._id, item.quantity + 1)}>
+                          <Plus size={13} />
+                        </button>
+                      </div>
+                      <button
+                        className="remove-btn"
+                        onClick={() => removeItem(item.cartItemId || item._id)}
+                        title="Remove item"
+                      >
+                        <Trash2 size={17} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               );

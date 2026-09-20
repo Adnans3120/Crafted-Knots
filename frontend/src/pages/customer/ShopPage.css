@@ -285,3 +285,48 @@
   .desktop-only { display: none; }
   .mobile-only { display: inline-flex; }
 }
+
+/* ─── Small screen tweaks ─────────────────────────────── */
+@media (max-width: 600px) {
+  .shop-header {
+    padding: 1.75rem 1rem;
+  }
+
+  .shop-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .shop-header p {
+    font-size: 0.88rem;
+  }
+
+  .shop-controls-bar {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .results-count {
+    font-size: 0.82rem;
+    width: 100%;
+  }
+
+  .sort-wrap {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .skeleton-card {
+    height: 260px;
+  }
+}
+
+@media (max-width: 360px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}

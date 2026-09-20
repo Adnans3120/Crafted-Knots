@@ -201,3 +201,30 @@
   justify-content: center;
   gap: 0.4rem;
 }
+
+/* ─── Small screen tweaks ─────────────────────────── */
+@media (max-width: 480px) {
+  .shipping-form,
+  .saved-addresses-block,
+  .summary-box {
+    padding: 1.1rem 0.85rem;
+  }
+
+  .saved-addresses-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .place-order-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .grand-total-row {
+    font-size: 1rem;
+  }
+
+  .mini-item img {
+    width: 42px;
+    height: 42px;
+  }
+}

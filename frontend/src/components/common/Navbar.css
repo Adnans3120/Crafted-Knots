@@ -212,3 +212,34 @@
   .navbar { height: auto; }
   .navbar-inner { height: var(--nav-height); }
 }
+
+@media (max-width: 480px) {
+  .navbar-logo span {
+    font-size: 1.1rem;
+  }
+
+  .navbar-logo img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .navbar-actions {
+    gap: 0.4rem;
+  }
+
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 360px) {
+  .navbar-logo span {
+    font-size: 0.95rem;
+  }
+
+  .navbar-logo img {
+    width: 34px;
+    height: 34px;
+  }
+}
